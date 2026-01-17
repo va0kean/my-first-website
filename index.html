@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мой персональный сайт</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.3em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        section {
+            margin-bottom: 60px;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .intro {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: #555;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+        }
+
+        /* Слайдер */
+        .slider-container {
+            background: #f8f9fa;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .slider {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #e9ecef;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .slider-controls {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 10;
+        }
+
+        .slider-btn {
+            background: rgba(102, 126, 234, 0.8);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 24px;
+            transition: all 0.3s;
+        }
+
+        .slider-btn:hover {
+            background: rgba(102, 126, 234, 1);
+            transform: scale(1.1);
+        }
+
+        .slider-thumbnails {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            gap: 15px;
+            background: white;
+            flex-wrap: wrap;
+        }
+
+        .thumbnail {
+            width: 100px;
+            height: 70px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            opacity: 0.6;
+        }
+
+        .thumbnail:hover {
+            opacity: 0.8;
+            transform: translateY(-3px);
+        }
+
+        .thumbnail.active {
+            border-color: #667eea;
+            opacity: 1;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Видео */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Аудио */
+        .audio-player {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .audio-player h3 {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        audio {
+            width: 100%;
+            border-radius: 50px;
+        }
+
+        /* Список задач */
+        .todo-container {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .todo-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .todo-input input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border 0.3s;
+        }
+
+        .todo-input input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .todo-input button {
+            padding: 15px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .todo-input button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+
+        .todo-list {
+            list-style: none;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: white;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .todo-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .todo-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .todo-item.completed span {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .todo-item button {
+            margin-left: auto;
+            padding: 8px 15px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .todo-item button:hover {
+            background: #c82333;
+        }
+
+        /* Таблица */
+        .table-container {
+            overflow-x: auto;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+        }
+
+        .status.active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status.completed {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        footer {
+            background: #2d3748;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        footer p {
+            margin-bottom: 10px;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .slider {
+                height: 300px;
+            }
+
+            .thumbnail {
+                width: 80px;
+                height: 56px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Добро пожаловать!</h1>
+            <p>Мой персональный сайт с различными элементами</p>
+        </header>
+
+        <div class="content">
+            <!-- Текстовая информация -->
+            <section>
+                <h2>О проекте</h2>
+                <div class="intro">
+                    <p>Этот сайт создан для демонстрации различных веб-элементов: от простого текста до интерактивных компонентов. Здесь вы найдете слайдер изображений, видео, аудиоплеер, интерактивный список задач и таблицу данных.</p>
+                    <p style="margin-top: 15px;">Все элементы созданы с использованием чистого HTML, CSS и JavaScript без внешних библиотек. Сайт адаптивен и хорошо работает на любых устройствах.</p>
+                </div>
+            </section>
+
+            <!-- Слайдер -->
+            <section>
+                <h2>Галерея изображений</h2>
+                <div class="slider-container">
+                    <div class="slider">
+                        <div class="slide active">
+                            <img src="https://sun9-15.userapi.com/s/v1/ig2/rPtl3R1Httk06LjJiPHPLpg-dI-L9v5DNNHBBj3ldPJv_FyR_VOxN84_7drzTSX5mtjvkOHGTLbBcTKVCsgPm7yt.jpg?quality=95&as=32x48,48x72,72x108,108x162,160x240,240x360,360x540,480x720,540x810,640x960,720x1080,1024x1536&from=bu&u=gb59QCI6lDTWf1b249uy_6_GlrezitnR0Bh1WTMikro&cs=360x0" alt="Изображение 1">
+                        </div>
+                        <div class="slide">
+                            <img src="https://sun9-87.userapi.com/s/v1/ig2/4-sXwww8qRXlDRlZFrfpj10xOa917fiNYG35lfGEdjgtejWchbqVuarmEOAIaT7FuOm8InnvOcoz6Uy7Z9EcePC2.jpg?quality=95&as=32x48,48x72,72x108,108x162,160x240,240x360,360x540,480x720,540x810,640x960,720x1080,1024x1536&from=bu&u=uCXgvJ7NdowARiFHh5IFdCBBFYDC470UR3RRdxAd2Hg&cs=360x0" alt="Изображение 2">
+                        </div>
+                        <div class="slide">
+                            <img src="https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?w=800" alt="Лес">
+                        </div>
+                        <div class="slide">
+                            <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800" alt="Природа">
+                        </div>
+                        
+                        <div class="slider-controls">
+                            <button class="slider-btn" id="prevBtn">‹</button>
+                            <button class="slider-btn" id="nextBtn">›</button>
+                        </div>
+                    </div>
+                    <div class="slider-thumbnails" id="thumbnailsContainer"></div>
+                </div>
+            </section>
+
+            <!-- Видео -->
+            <section>
+                <h2>Видео</h2>
+                <div class="video-container">
+                    <iframe src="https://my.mail.ru/+/video/embed/bk/va0kean/_myvideo/70" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </section>
+
+            <!-- Аудио -->
+            <section>
+                <h2>Аудиоплеер</h2>
+                <div class="audio-player">
+                    <h3>🎵 Beautiful Boys - Нежная Любовь</h3>
+                    <audio controls>
+                        <source src="https://res.cloudinary.com/drzwrw5kf/video/upload/v1768276540/Beautiful_Boys_-_%D0%9D%D0%B5%D0%B6%D0%BD%D0%B0%D1%8F_%D0%9B%D1%8E%D0%B1%D0%BE%D0%B2%D1%8C_hitparad.fm_nnldae.mp3" type="audio/mpeg">
+                        Ваш браузер не поддерживает аудио элемент.
+                    </audio>
+                </div>
+            </section>
+
+            <!-- Список задач -->
+            <section>
+                <h2>Список задач</h2>
+                <div class="todo-container">
+                    <div class="todo-input">
+                        <input type="text" id="todoInput" placeholder="Добавить новую задачу...">
+                        <button onclick="addTodo()">Добавить</button>
+                    </div>
+                    <ul class="todo-list" id="todoList">
+                        <li class="todo-item">
+                            <input type="checkbox" onchange="toggleTodo(this)">
+                            <span>Изучить HTML и CSS</span>
+                            <button onclick="deleteTodo(this)">Удалить</button>
+                        </li>
+                        <li class="todo-item">
+                            <input type="checkbox" onchange="toggleTodo(this)">
+                            <span>Создать свой первый сайт</span>
+                            <button onclick="deleteTodo(this)">Удалить</button>
+                        </li>
+                        <li class="todo-item">
+                            <input type="checkbox" onchange="toggleTodo(this)">
+                            <span>Опубликовать на GitHub Pages</span>
+                            <button onclick="deleteTodo(this)">Удалить</button>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Таблица -->
+            <section>
+                <h2>Таблица проектов</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Проект</th>
+                                <th>Описание</th>
+                                <th>Статус</th>
+                                <th>Дата</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Личный сайт</strong></td>
+                                <td>Создание персонального веб-сайта</td>
+                                <td><span class="status completed">Завершен</span></td>
+                                <td>17.01.2026</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Портфолио</strong></td>
+                                <td>Разработка онлайн-портфолио работ</td>
+                                <td><span class="status active">В процессе</span></td>
+                                <td>15.01.2026</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Блог</strong></td>
+                                <td>Запуск личного блога о технологиях</td>
+                                <td><span class="status pending">Планируется</span></td>
+                                <td>10.01.2026</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Веб-приложение</strong></td>
+                                <td>Интерактивное приложение на React</td>
+                                <td><span class="status pending">Планируется</span></td>
+                                <td>05.01.2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 Мой персональный сайт. Все права защищены.</p>
+            <p>Создано с ❤️ и размещено на <a href="https://pages.github.com" target="_blank">GitHub Pages</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Слайдер
+        const slides = document.querySelectorAll('.slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const thumbnailsContainer = document.getElementById('thumbnailsContainer');
+        
+        let currentSlide = 0;
+
+        // Создаем миниатюры
+        slides.forEach((slide, index) => {
+            const thumbnail = document.createElement('div');
+            thumbnail.classList.add('thumbnail');
+            if (index === 0) thumbnail.classList.add('active');
+            
+            const img = document.createElement('img');
+            img.src = slide.querySelector('img').src;
+            img.alt = slide.querySelector('img').alt;
+            
+            thumbnail.appendChild(img);
+            thumbnail.addEventListener('click', () => goToSlide(index));
+            thumbnailsContainer.appendChild(thumbnail);
+        });
+
+        const thumbnails = document.querySelectorAll('.thumbnail');
+
+        function updateSlider() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                thumbnails[index].classList.remove('active');
+            });
+            
+            slides[currentSlide].classList.add('active');
+            thumbnails[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            updateSlider();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+        }
+
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevSlide();
+            if (e.key === 'ArrowRight') nextSlide();
+        });
+
+        // Автопрокрутка слайдера
+        setInterval(nextSlide, 5000);
+
+        // Список задач
+        function addTodo() {
+            const input = document.getElementById('todoInput');
+            const text = input.value.trim();
+            
+            if (text === '') return;
+            
+            const li = document.createElement('li');
+            li.className = 'todo-item';
+            li.innerHTML = `
+                <input type="checkbox" onchange="toggleTodo(this)">
+                <span>${text}</span>
+                <button onclick="deleteTodo(this)">Удалить</button>
+            `;
+            
+            document.getElementById('todoList').appendChild(li);
+            input.value = '';
+        }
+
+        function toggleTodo(checkbox) {
+            checkbox.parentElement.classList.toggle('completed');
+        }
+
+        function deleteTodo(button) {
+            button.parentElement.remove();
+        }
+
+        document.getElementById('todoInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') addTodo();
+        });
+    </script>
+</body>
+</html>
